@@ -18,7 +18,7 @@ You can use `LogMonitor` as the only monitor in your app:
 ```js
 import React from 'react';
 import { createDevTools } from 'redux-devtools';
-import LogMonitor from 'redux-devtools-log-monitor';
+import LogMonitor from 'redux-devtools-log-monitor-filterable';
 
 export default createDevTools(
   <LogMonitor filter={{ blacklist: ['ACTION1', 'ACTION2'], whitelist: ['ACTION1', 'ACTION2'] }} />
