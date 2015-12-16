@@ -1,7 +1,7 @@
 Redux DevTools Log Monitor Filterable
 =====================================
 
-Fork of [Redux DevTools Log Monitor](https://github.com/gaearon/redux-devtools-log-monitor) with the ability to specify actions to be hidden or shown in DevTools.
+A fork of [Redux DevTools Log Monitor](https://github.com/gaearon/redux-devtools-log-monitor) with the ability to specify actions to be hidden or shown in DevTools.
 
 ### Installation
 
@@ -34,7 +34,7 @@ Consult the [`DockMonitor` README](https://github.com/gaearon/redux-devtools-doc
 
 ### Features
 
-Every action is displayed in the log. You can expand the tree view to inspect the `action` object and the `state` after it.
+Only filtered actions are displayed in the log. You can expand the tree view to inspect the `action` object and the `state` after it.
 
 If a reducer throws while handling an action, you will see “Interrupted by an error up the chain” instead of the state and action tree view. Scroll up until you find the action which caused the error. You will see the error message in the action log entry. If you use a hot reloading tool, you can edit the reducer, and the error will automatically update or go away.
 
