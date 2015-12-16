@@ -1,15 +1,12 @@
-Redux DevTools Log Monitor
-=========================
+Redux DevTools Log Monitor Filterable
+=====================================
 
-The default monitor for [Redux DevTools](https://github.com/gaearon/redux-devtools) with a tree view.  
-It shows a log of states and actions, and lets you change their history.
-
-![](http://i.imgur.com/J4GeW0M.gif)
+Fork of [Redux DevTools Log Monitor](https://github.com/gaearon/redux-devtools-log-monitor) with the ability to specify actions to be hidden or shown in DevTools.
 
 ### Installation
 
 ```
-npm install --save-dev redux-devtools-log-monitor
+npm install --save-dev redux-devtools-log-monitor-filterable
 ```
 
 ### Usage
@@ -24,7 +21,7 @@ import { createDevTools } from 'redux-devtools';
 import LogMonitor from 'redux-devtools-log-monitor';
 
 export default createDevTools(
-  <LogMonitor />
+  <LogMonitor filter={{ blacklist: ['ACTION1', 'ACTION2'], whitelist: ['ACTION1', 'ACTION2'] }} />
 );
 ```
 
@@ -52,6 +49,7 @@ Name                  | Description
 `theme`               | Either a string referring to one of the themes provided by [redux-devtools-themes](https://github.com/gaearon/redux-devtools-themes) (feel free to contribute!) or a custom object of the same format. Optional. By default, set to [`'nicinabox'`](https://github.com/gaearon/redux-devtools-themes/blob/master/src/nicinabox.js).
 `select`              | A function that selects the slice of the state for DevTools to show. For example, `state => state.thePart.iCare.about`. Optional. By default, set to `state => state`.
 `preserveScrollTop`   | When `true`, records the current scroll top every second so it can be restored on refresh. This only has effect when used together with `persistState()` enhancer from Redux DevTools. By default, set to `true`.
+`filter`              | An object with `blacklist` or `whitelist` arrays, which specify either actions to be hidden or shown in DevTools. If the latter is specified, other than those actions will be hidden.
 
 ### License
 
