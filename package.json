@@ -1,5 +1,5 @@
 {
-  "name": "redux-devtools-log-monitor-filtrable",
+  "name": "redux-devtools-log-monitor-filterable",
   "version": "1.0.1",
   "description": "Redux DevTools tree view monitor with the ability to filter actions.",
   "main": "lib/index.js",
