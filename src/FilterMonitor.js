@@ -1,7 +1,8 @@
 import { cloneElement, Component, PropTypes } from 'react';
+import reducer from './reducers';
 
 export default class FilterMonitor extends Component {
-  static update = () => ({});
+  static update = reducer;
 
   static propTypes = {
     children: PropTypes.element,
@@ -10,10 +11,10 @@ export default class FilterMonitor extends Component {
   };
 
   render() {
-    const { whitelist, blacklist, children, ...childProps } = this.props;
+    const { whitelist, blacklist, monitorState, children, ...rest } = this.props;
 
     if (whitelist || blacklist) {
-      let { stagedActionIds, actionsById } = childProps;
+      let { stagedActionIds, actionsById } = rest;
       stagedActionIds = stagedActionIds.filter(id => {
         const action = actionsById[id].action;
         return (
@@ -21,12 +22,17 @@ export default class FilterMonitor extends Component {
           blacklist && blacklist.indexOf(action.type) === -1
         );
       });
-      childProps = {
-        ...childProps,
+
+      rest = {
+        ...rest,
         stagedActionIds: stagedActionIds
       };
     }
 
+    const childProps = {
+      ...rest,
+      monitorState: monitorState.childMonitorState || {}
+    };
     return cloneElement(children, childProps);
   }
 }
