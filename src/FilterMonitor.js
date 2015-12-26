@@ -5,14 +5,12 @@ export default class FilterMonitor extends Component {
 
   static propTypes = {
     children: PropTypes.element,
-    filter: PropTypes.shape({
-      whitelist: PropTypes.array,
-      blacklist: PropTypes.array
-    })
+    whitelist: PropTypes.array,
+    blacklist: PropTypes.array
   };
 
   render() {
-    const { filter, children, ...childProps } = this.props;
+    const { whitelist, blacklist, children, ...childProps } = this.props;
     return cloneElement(children, childProps);
   }
 }
