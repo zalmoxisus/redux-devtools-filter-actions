@@ -1,6 +1,6 @@
 {
   "name": "redux-devtools-filter-actions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A composable monitor for Redux DevTools with the ability to filter actions.",
   "main": "lib/index.js",
   "files": ["lib"],
