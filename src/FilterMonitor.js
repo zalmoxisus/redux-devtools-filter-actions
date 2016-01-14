@@ -10,22 +10,39 @@ export default class FilterMonitor extends Component {
     blacklist: PropTypes.array
   };
 
+  isFiltered(action) {
+    return (
+      this.props.whitelist && this.props.whitelist.indexOf(action) !== -1 ||
+      this.props.blacklist && this.props.blacklist.indexOf(action) === -1
+    );
+  }
+
   render() {
-    const { whitelist, blacklist, monitorState, children, ...rest } = this.props;
+    const {
+        whitelist, blacklist, monitorState, children,
+        stagedActionIds, computedStates,
+        ...rest
+      } = this.props;
+    const filteredStagedActionIds = [];
+    const filteredComputedStates = [];
 
     if (whitelist || blacklist) {
-      let { stagedActionIds, actionsById } = rest;
-      stagedActionIds = stagedActionIds.filter(id => {
-        const action = actionsById[id].action;
-        return (
-          whitelist && whitelist.indexOf(action.type) !== -1 ||
-          blacklist && blacklist.indexOf(action.type) === -1
-        );
+      stagedActionIds.forEach((id, idx) => {
+        if (this.isFiltered(rest.actionsById[id].action.type)) {
+          filteredStagedActionIds.push(id);
+          filteredComputedStates.push(computedStates[idx]);
+        }
       });
 
       rest = {
         ...rest,
-        stagedActionIds: stagedActionIds
+        stagedActionIds: filteredStagedActionIds,
+        computedStates: filteredComputedStates
+      };
+    } else {
+      rest = {
+        ...rest,
+        stagedActionIds, computedStates
       };
     }
 
