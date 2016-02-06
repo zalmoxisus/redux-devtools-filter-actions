@@ -12,8 +12,8 @@ export default class FilterMonitor extends Component {
 
   isFiltered(action) {
     return (
-      this.props.whitelist && this.props.whitelist.indexOf(action) !== -1 ||
-      this.props.blacklist && this.props.blacklist.indexOf(action) === -1
+      this.props.whitelist && action.match(this.props.whitelist.join('|')) ||
+      this.props.blacklist && !action.match(this.props.blacklist.join('|'))
     );
   }
 

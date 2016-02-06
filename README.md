@@ -36,8 +36,8 @@ Also, you can wrap it into the [`DockMonitor`](https://github.com/gaearon/redux-
 
 Name                  | Description
 -------------         | -------------
-`blacklist`           | An array of actions to be hidden in the child monitor.
-`whitelist`           | An array of actions to be shown. If specified, other than those actions will be hidden (the 'blacklist' parameter will be ignored).
+`blacklist`           | An array of actions (regex as string) to be hidden in the child monitor.
+`whitelist`           | An array of actions (regex as string) to be shown. If specified, other than those actions will be hidden (the 'blacklist' parameter will be ignored).
 
 ### License
 
