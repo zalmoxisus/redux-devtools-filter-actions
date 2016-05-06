@@ -10,10 +10,11 @@ export default class FilterMonitor extends Component {
     blacklist: PropTypes.array
   };
 
-  isFiltered(action) {
+  isFiltered(actionType) {
+    var type = actionType || '';
     return (
-      this.props.whitelist && action.match(this.props.whitelist.join('|')) ||
-      this.props.blacklist && !action.match(this.props.blacklist.join('|'))
+      this.props.whitelist && type.match(this.props.whitelist.join('|')) ||
+      this.props.blacklist && !type.match(this.props.blacklist.join('|'))
     );
   }
 
