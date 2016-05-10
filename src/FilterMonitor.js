@@ -11,7 +11,7 @@ export default class FilterMonitor extends Component {
   };
 
   isFiltered(actionType) {
-    var type = actionType || '';
+    const type = actionType || '';
     return (
       this.props.whitelist && type.match(this.props.whitelist.join('|')) ||
       this.props.blacklist && !type.match(this.props.blacklist.join('|'))
