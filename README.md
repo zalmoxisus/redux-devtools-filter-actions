@@ -22,7 +22,15 @@ import FilterMonitor from 'redux-devtools-filter-actions';
 import LogMonitor from 'redux-devtools-log-monitor';
 
 export default createDevTools(
-  <FilterMonitor blacklist={['ACTION1', 'ACTION2']}>
+  <FilterMonitor
+    blacklist={['ACTION1', 'ACTION2']}
+    actionsFilter={(action) => (
+                                 action.type === 'FILE_DOWNLOAD_SUCCESS' && action.data ?
+                                 { ...action, data: '<<LONG_BLOB>>' } : action
+                               )
+    }
+    statesFilter={(state) => state.data ? { ...state, data: '<<LONG_BLOB>>' } : state}
+  >
     <LogMonitor />
   </FilterMonitor>
 );
@@ -38,6 +46,8 @@ Name                  | Description
 -------------         | -------------
 `blacklist`           | An array of actions (regex as string) to be hidden in the child monitor.
 `whitelist`           | An array of actions (regex as string) to be shown. If specified, other than those actions will be hidden (the 'blacklist' parameter will be ignored).
+`actionsFilter`       | Function which takes `action` object and id number as arguments, and should return `action` object back. See the example above.
+`statesFilter`        | Function which takes `state` object and index as arguments, and should return `state` object back. See the example above.
 
 ### License
 

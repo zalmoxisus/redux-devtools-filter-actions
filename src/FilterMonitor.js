@@ -1,4 +1,5 @@
 import { cloneElement, Component, PropTypes } from 'react';
+import mapValues from 'lodash/mapValues';
 import reducer from './reducers';
 
 export default class FilterMonitor extends Component {
@@ -20,30 +21,55 @@ export default class FilterMonitor extends Component {
 
   render() {
     let {
-        whitelist, blacklist, monitorState, children,
-        stagedActionIds, computedStates,
+        whitelist, blacklist, actionsFilter, statesFilter,
+        monitorState, children, actionsById, stagedActionIds, computedStates,
         ...rest
       } = this.props;
-    const filteredStagedActionIds = [];
-    const filteredComputedStates = [];
+    let filteredStagedActionIds = [];
+    let filteredComputedStates = [];
+    let filteredActionsById = {};
 
     if (whitelist || blacklist) {
       stagedActionIds.forEach((id, idx) => {
-        if (this.isNotFiltered(rest.actionsById[id].action.type)) {
+        if (this.isNotFiltered(actionsById[id].action.type)) {
           filteredStagedActionIds.push(id);
-          filteredComputedStates.push(computedStates[idx]);
+          filteredComputedStates.push(
+            statesFilter ?
+            { ...computedStates[idx], state: statesFilter(computedStates[idx].state, idx) } :
+            computedStates[idx]
+          );
+          filteredActionsById[id] = (
+            actionsFilter ?
+              { ...actionsById[id], action: actionsFilter(actionsById[id].action, id) } :
+              actionsById[id]
+          );
         }
       });
 
       rest = {
         ...rest,
+        actionsById: filteredActionsById,
         stagedActionIds: filteredStagedActionIds,
         computedStates: filteredComputedStates
       };
     } else {
+      if (actionsFilter) {
+        filteredActionsById = mapValues(actionsById, (action, id) => (
+          { ...action, action: actionsFilter(action.action, id) }
+        ));
+      } else filteredActionsById = actionsById;
+
+      if (statesFilter) {
+        filteredComputedStates = computedStates.map((state, idx) => (
+          { ...state, state: statesFilter(state.state, idx) }
+        ));
+      } else filteredComputedStates = computedStates;
+
       rest = {
         ...rest,
-        stagedActionIds, computedStates
+        stagedActionIds,
+        actionsById: filteredActionsById,
+        computedStates: filteredComputedStates
       };
     }
 
