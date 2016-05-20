@@ -21,14 +21,16 @@ import { createDevTools } from 'redux-devtools';
 import FilterMonitor from 'redux-devtools-filter-actions';
 import LogMonitor from 'redux-devtools-log-monitor';
 
+// Stripping big data which slows down DevTools Monitor
+const actionsFilter = (action) => (
+  action.type === 'FILE_DOWNLOAD_SUCCESS' && action.data ?
+  { ...action, data: '<<LONG_BLOB>>' } : action
+);
+
 export default createDevTools(
   <FilterMonitor
     blacklist={['ACTION1', 'ACTION2']}
-    actionsFilter={(action) => (
-                                 action.type === 'FILE_DOWNLOAD_SUCCESS' && action.data ?
-                                 { ...action, data: '<<LONG_BLOB>>' } : action
-                               )
-    }
+    actionsFilter={actionsFilter}
     statesFilter={(state) => state.data ? { ...state, data: '<<LONG_BLOB>>' } : state}
   >
     <LogMonitor />
