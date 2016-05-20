@@ -10,7 +10,7 @@ export default class FilterMonitor extends Component {
     blacklist: PropTypes.array
   };
 
-  isFiltered(actionType) {
+  isNotFiltered(actionType) {
     const type = actionType || '';
     return (
       this.props.whitelist && type.match(this.props.whitelist.join('|')) ||
@@ -19,7 +19,7 @@ export default class FilterMonitor extends Component {
   }
 
   render() {
-    const {
+    let {
         whitelist, blacklist, monitorState, children,
         stagedActionIds, computedStates,
         ...rest
@@ -29,7 +29,7 @@ export default class FilterMonitor extends Component {
 
     if (whitelist || blacklist) {
       stagedActionIds.forEach((id, idx) => {
-        if (this.isFiltered(rest.actionsById[id].action.type)) {
+        if (this.isNotFiltered(rest.actionsById[id].action.type)) {
           filteredStagedActionIds.push(id);
           filteredComputedStates.push(computedStates[idx]);
         }
